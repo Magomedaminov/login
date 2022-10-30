@@ -5,6 +5,8 @@ import UI from './config/ui.config';
 import { validate } from './helpers/validate';
 import { showInputError, removeInputError} from './views/form';
 import { login } from './services/auth.services';
+import { notify } from './views/notifications';
+import { getNews } from './services/news.service';
 
 const { form, inputPassword, inputEmail} = UI;
 const inputs = [inputEmail, inputPassword];
@@ -29,11 +31,10 @@ async function onSubmit() {
 
     try {
         await login(inputEmail.value, inputPassword.value);
+        await getNews();
         form.reset();
+
     } catch(err) {
-
+        notify({mas: 'login faild', className: 'alert-danger'})
     }
-
-    
-
 }
